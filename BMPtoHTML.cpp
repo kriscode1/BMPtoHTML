@@ -112,7 +112,9 @@ int main(int argc, char* argv[])
 	}
 
 	//Write the HTML file and parse the colors simultaneously
-	char htmlTableStart[] = "<html>\n<head>\n<style type=\"text/css\">\ntd {\n    height:1px;\n    width:1px;\n}\n</style>\n</head>\n<body>\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+	char htmlTableStart[] = "<html>\n<head>\n<style type=\"text/css\">\ntd\
+	{\n    height:1px;\n    width:1px;\n}\n</style>\n</head>\n<body>\n<tab\
+	le border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
 	htmlFile.write(htmlTableStart, strlen(htmlTableStart));
 	for (int row = 0; row < bHeader.biHeight; ++row) {
 		char htmlRowStart[] = "<tr>\n";
