@@ -12,7 +12,6 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	//Display usage if incorrect number of parameters
 	if (argc != 3) {
 		cout << "Converts a BMP image to an HTML table of colored cells." << endl << endl;
 		cout << "BMPtoHTML.exe [input_bmp_filename] [output_html_filename]" << endl;
