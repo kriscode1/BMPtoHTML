@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 	if (argc != 3) {
 		cout << "Converts a BMP image to an HTML table of colored cells." << endl << endl;
 		cout << "BMPtoHTML.exe [input_bmp_filename] [output_html_filename]" << endl;
-		return 0;
+		return EXIT_SUCCESS;
 	}
 	string bmpFileName = argv[1];
 	string htmlFileName = argv[2];
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 	bmpFile.open(bmpFileName, fstream::in | fstream::binary);
 	if (!bmpFile.is_open()) {
 		cout << "Error opening input BMP file " << bmpFileName << endl;
-		return -1;
+		return EXIT_FAILURE;
 	}
 	
 	//Read BMP file header
@@ -70,24 +70,24 @@ int main(int argc, char* argv[])
 	else {
 		cout << "Header unsupported. Length " << headerSize << endl;
 		bmpFile.close();
-		return -1;
+		return EXIT_FAILURE;
 	}
 	
 	//Check for unsupported features
 	if (bHeader.biPlanes != 1) {
 		cout << "Unsupported number of planes ("<< bHeader.biPlanes << ")" << endl;
 		bmpFile.close();
-		return -1;
+		return EXIT_FAILURE;
 	}
 	if (bHeader.biBitCount != 24) {
 		cout << "Unsupported number of bits per pixel (" << bHeader.biBitCount << ")" << endl;
 		bmpFile.close();
-		return -1;
+		return EXIT_FAILURE;
 	}
 	if (bHeader.biCompression != BI_RGB) {//BI_RGB means uncompressed
 		cout << "Compressed image formats not supported." << endl;
 		bmpFile.close();
-		return -1;
+		return EXIT_FAILURE;
 	}
 	
 	//Rows are rounded to 4 bytes
@@ -108,13 +108,11 @@ int main(int argc, char* argv[])
 	htmlFile.open(htmlFileName, fstream::out | fstream::trunc);
 	if (!htmlFile.is_open()) {
 		cout << "Error opening output HTML file " << htmlFileName << endl;
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	//Write the HTML file and parse the colors simultaneously
-	char htmlTableStart[] = "<html>\n<head>\n<style type=\"text/css\">\ntd\
-	{\n    height:1px;\n    width:1px;\n}\n</style>\n</head>\n<body>\n<tab\
-	le border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+	char htmlTableStart[] = "<html>\n<head>\n<style type=\"text/css\">\ntd {\n    height:1px;\n    width:1px;\n}\n</style>\n</head>\n<body>\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
 	htmlFile.write(htmlTableStart, strlen(htmlTableStart));
 	for (int row = 0; row < bHeader.biHeight; ++row) {
 		char htmlRowStart[] = "<tr>\n";
@@ -149,5 +147,5 @@ int main(int argc, char* argv[])
 	htmlFile.write(htmlTableEnd, strlen(htmlTableEnd));
 	htmlFile.close();
 	
-    return 0;
+    return EXIT_SUCCESS;
 }
